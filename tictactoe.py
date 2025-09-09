@@ -1,41 +1,45 @@
-def print_board(board):
+def my_board(board):
     print()
     for i in range(0, 9, 3):
         print(board[i], "|", board[i+1], "|", board[i+2])
         if i < 6:
-            print("--+---+--")
+            print("--|---|--")
     print()
 
-def check_winner(board, player):
-    winners = [ (0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]
-    for a,b,c in winners:
-      if board[a]==board[b]==board[c]==player:
-        return True
+def checkwin(board, player):
+    if board[0] == board[1] == board[2] == player: return True
+    if board[3] == board[4] == board[5] == player: return True
+    if board[6] == board[7] == board[8] == player: return True
+
+    if board[0] == board[3] == board[6] == player: return True
+    if board[1] == board[4] == board[7] == player: return True
+    if board[2] == board[5] == board[8] == player: return True
+
+    if board[0] == board[4] == board[8] == player: return True
+    if board[2] == board[4] == board[6] == player: return True
+
     return False
 
 def tic_tac_toe():
-    board = [""] * 9
-    player = "X"
-
+    board = [0] * 9
+    player = 1
     while True:
-        print_board(board)
-        move = int(input(f"Player {player} (choose 1-9): ")) - 1
+        my_board(board)
+        move = int(input(f"Player {player} choose from 1 to 9: ")) - 1
 
-        if board[move] != "":
-            print("That spot is already taken! Try again.")
+        if board[move] != 0:
+            print("The spot is taken,try again")
             continue
 
         board[move] = player
 
-        if check_winner(board, player):
-            print_board(board)
-            print(f"Player {player} wins!")
+        if checkwin(board, player):
+            my_board(board)
+            print(f" Player {player} wins!")
             break
-
-        if "" not in board:
-            print_board(board)
-            print("It's a draw!")
+        if 0 not in board:
+            my_board(board)
+            print("Draw!")
             break
-        player = "O" if player == "X" else "X"
-
+        player = 2 if player == 1 else 1
 tic_tac_toe()
